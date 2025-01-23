@@ -55,3 +55,55 @@ module.exports.detail = async (req, res) => {
         res.json("Không tìm thấy!")
     }
 }
+
+// [PATCH] /api/vi/tasks/change-status/:id
+module.exports.changeStatus = async (req, res) => {
+    try {
+        await Task.updateOne({
+            _id: req.params.id
+        }, {
+            status: req.body.status
+        })
+
+        res.json({
+            code: 200,
+            message: "Cập nhật trạng thái thành công!"
+        })
+    } catch (error) {
+        res.json({
+            code: 400,
+            message: "Lỗi!"
+        })
+    }
+}
+
+// [PATCH] /api/vi/tasks/change-multi
+module.exports.changeMulti = async (req, res) => {
+    try {
+        const {ids, key, value} = req.body
+
+        switch(key) {
+            case "status": 
+                await Task.updateMany({
+                    _id: {$in: ids}
+                }, {
+                    status: value
+                })
+                res.json({
+                    code: 200,
+                    message: "Cập nhật trạng thái thành công!"
+                })
+            default:
+                break;
+        }
+
+       
+
+        
+    } catch (error) {
+        res.json({
+            code: 400,
+            message: "Lỗi!"
+        })
+    }
+}
