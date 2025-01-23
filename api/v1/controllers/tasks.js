@@ -93,13 +93,26 @@ module.exports.changeMulti = async (req, res) => {
                     code: 200,
                     message: "Cập nhật trạng thái thành công!"
                 })
-            default:
                 break;
-        }
-
-       
-
-        
+            case "delete": 
+                await Task.updateMany({
+                    _id: {$in: ids}
+                }, {
+                    deleted: true,
+                    deleteAt: new Date()
+                })
+                res.json({
+                    code: 200,
+                    message: "Xóa các công việc thành công!"
+                })
+                break;
+            default:
+                res.json({
+                    code: 400,
+                    message: "Lỗi!"
+                }) 
+                break;
+        }  
     } catch (error) {
         res.json({
             code: 400,
@@ -108,7 +121,7 @@ module.exports.changeMulti = async (req, res) => {
     }
 }
 
-// [PATCH] /api/vi/tasks/create/:id
+// [POST] /api/vi/tasks/create/:id
 module.exports.create = async (req, res) => {
     try {
         const task = new Task(req.body)
@@ -126,3 +139,43 @@ module.exports.create = async (req, res) => {
         })
     }
 } 
+
+// [PATCH] /api/vi/tasks/edit/:id
+module.exports.edit = async (req, res) => {
+    try {
+        await Task.updateOne({
+            _id: req.params.id
+        }, req.body)
+
+        res.json({
+            code: 200,
+            message: "Cập nhật thông tin thành công!"
+        })
+    } catch (error) {
+        res.json({
+            code: 400,
+            message: "Lỗi!"
+        })
+    }
+}
+
+// [PATCH] /api/vi/tasks/delete/:id
+module.exports.delete = async (req, res) => {
+    try {
+        await Task.updateOne({
+            _id: req.params.id
+        }, {
+            deleted: true
+        })
+
+        res.json({
+            code: 200,
+            message: "Xóa công việc thành công!"
+        })
+    } catch (error) {
+        res.json({
+            code: 400,
+            message: "Lỗi!"
+        })
+    }
+}
