@@ -107,3 +107,22 @@ module.exports.changeMulti = async (req, res) => {
         })
     }
 }
+
+// [PATCH] /api/vi/tasks/create/:id
+module.exports.create = async (req, res) => {
+    try {
+        const task = new Task(req.body)
+        await task.save()
+
+        res.json({
+            code: 200,
+            message: "Tạo công việc thành công!",
+            data: task
+        })
+    } catch (error) {
+        res.json({
+            code: 400,
+            message: "Lỗi!"
+        })
+    }
+} 
