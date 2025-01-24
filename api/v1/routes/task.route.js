@@ -1,7 +1,7 @@
 const express = require("express")
 const route = express.Router()
 
-const controller = require("../controllers/tasks")
+const controller = require("../controllers/task.controller")
 
 const validate = require("../validates/task.validate")
 

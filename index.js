@@ -1,7 +1,10 @@
 const express = require("express")
 const app = express()
 const bodyParser = require('body-parser')
+
 const cors = require('cors')
+
+const cookieParser = require('cookie-parser')
 
 require("dotenv").config()
 
@@ -15,6 +18,9 @@ app.use(bodyParser.json())
 
 //CORS
 app.use(cors())
+
+//cookie-parser
+app.use(cookieParser())
 
 const route = require("./api/v1/routes/index.route")
 route(app)
