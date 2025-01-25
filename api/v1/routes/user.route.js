@@ -7,4 +7,12 @@ const validate = require("../validates/user.validate")
 
 route.post("/register", validate.register, controller.register)
 
+route.post("/login", validate.login, controller.login)
+
+route.post("/password/forgot", validate.forgotPassword, controller.forgotPassword)
+
+route.post("/password/otp", validate.otpPassword, controller.otpPassword)
+
+route.post("/password/reset", validate.resetPassword, controller.resetPassword)
+
 module.exports = route
