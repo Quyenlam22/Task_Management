@@ -4,6 +4,7 @@ const route = express.Router()
 const controller = require("../controllers/user.controller")
 
 const validate = require("../validates/user.validate")
+const authMiddleware = require("../middlewares/auth.middleware")
 
 route.post("/register", validate.register, controller.register)
 
@@ -15,6 +16,6 @@ route.post("/password/otp", validate.otpPassword, controller.otpPassword)
 
 route.post("/password/reset", validate.resetPassword, controller.resetPassword)
 
-route.get("/detail", controller.detail)
+route.get("/detail", authMiddleware.requireAuth, controller.detail)
 
 module.exports = route

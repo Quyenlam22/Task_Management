@@ -176,7 +176,7 @@ module.exports.otpPassword = async (req, res) => {
 module.exports.resetPassword = async (req, res) => {
     try {
         const user = await User.findOne({
-            token: req.body.token,
+            token: req.cookies.token,
         })
     
         if(md5(req.body.password) === user.password) {
@@ -187,7 +187,7 @@ module.exports.resetPassword = async (req, res) => {
         }
         else{
             await User.updateOne({
-                token: req.body.token
+                token: req.cookies.token
             }, {
                 password: md5(req.body.password)
             })
@@ -208,14 +208,10 @@ module.exports.resetPassword = async (req, res) => {
 // [POST] /users/detail
 module.exports.detail = async (req, res) => {
     try {
-        const user = await User.findOne({
-            token: req.cookies.token,
-        }).select("-password -token")
-    
         res.json({
             code: 200,
             message: "Thông tin chi tiết của tài khoản!",
-            info: user
+            info: req.user
         }) 
     } catch (error) {
         res.json({
