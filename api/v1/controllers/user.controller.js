@@ -204,3 +204,23 @@ module.exports.resetPassword = async (req, res) => {
         })
     }
 }
+
+// [POST] /users/detail
+module.exports.detail = async (req, res) => {
+    try {
+        const user = await User.findOne({
+            token: req.cookies.token,
+        }).select("-password -token")
+    
+        res.json({
+            code: 200,
+            message: "Thông tin chi tiết của tài khoản!",
+            info: user
+        }) 
+    } catch (error) {
+        res.json({
+            code: 400,
+            message: "Lỗi!"
+        })
+    }
+}

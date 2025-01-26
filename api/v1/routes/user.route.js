@@ -15,4 +15,6 @@ route.post("/password/otp", validate.otpPassword, controller.otpPassword)
 
 route.post("/password/reset", validate.resetPassword, controller.resetPassword)
 
+route.get("/detail", controller.detail)
+
 module.exports = route
