@@ -130,6 +130,18 @@ module.exports.create = async (req, res) => {
     try {
         req.body.createdBy = req.user.id
 
+        const parentTask = await Task.findOne({
+            _id: req.body.parentTaskId
+        })
+
+        if(!parentTask){
+            res.json({
+                code: 400,
+                message: "Không tìm thấy task cha!"
+            })
+            return
+        }
+
         const task = new Task(req.body)
         await task.save()
 
