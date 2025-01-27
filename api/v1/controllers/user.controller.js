@@ -220,3 +220,23 @@ module.exports.detail = async (req, res) => {
         })
     }
 }
+
+// [POST] /users/list
+module.exports.list = async (req, res) => {
+    try {
+        const listUsers = await User.find({
+            deleted: false
+        }).select("fullName email")
+
+        res.json({
+            code: 200,
+            message: "Thông tin chi tiết của tài khoản!",
+            users: listUsers
+        }) 
+    } catch (error) {
+        res.json({
+            code: 400,
+            message: "Lỗi!"
+        })
+    }
+}
